@@ -8,6 +8,7 @@ import javafx.stage.Stage;
 import javafx.geometry.*;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.control.Button;
 
 import NoughtsCrosses.Game.*;
 
@@ -35,6 +36,11 @@ public class Display extends Application {
 		//grid
 		initGame();
 		addGrid();
+
+		Button reset = new Button();
+		reset.setText("Reset");
+		reset.setOnAction(e -> resetGame());
+		content.getChildren().add(reset);
 
 		//init
 		Scene scene = new Scene(content, 600, 800);
@@ -77,9 +83,23 @@ public class Display extends Application {
 		}
 		if (!gameOver) {
 			int bm = bot.nextMove();
-			System.out.println("BEST: "+bm);
-			spaces[bm].text.setText("X");
+			if (bm==-1) {
+				title.setText("Tie Game!");
+			} else
+				spaces[bm].text.setText("X");
+			if (logic.isWinner(2, board)) {
+				title.setText("Bot Wins!");
+				gameOver=true;
+			}
 		}
+	}
+
+	private void resetGame() {
+		title.setText("Noughts and Crosses");
+		for (Space s : spaces)
+			s.text.setText(".");
+		initGame();
+		gameOver = false;
 	}
 
 	class Space extends StackPane {
