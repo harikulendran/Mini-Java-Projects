@@ -43,7 +43,7 @@ public class Display extends Application {
 		content.getChildren().add(reset);
 
 		//init
-		Scene scene = new Scene(content, 600, 800);
+		Scene scene = new Scene(content, 600, 600);
 		primaryStage.setTitle("Noughts and Crosses");
 		primaryStage.setScene(scene);
 		primaryStage.show();
