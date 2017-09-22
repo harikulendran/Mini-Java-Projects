@@ -16,8 +16,10 @@ public class Display extends Application {
 	private Text title;
 	private int playerTurn = 1;
 	private Board board;
+	private Space[] spaces;
 	private Logic logic;
 	private boolean gameOver = false;
+	private Bot bot;
 
 	public void start(Stage primaryStage) {
 		//layout
@@ -44,16 +46,19 @@ public class Display extends Application {
 	public void initGame() {
 		board = new Board();
 		logic = new Logic();
+		bot = new Bot(board, 2);
 	}
 
 	public void addGrid() {
 		GridPane gp = new GridPane();
 		gp.setAlignment(Pos.CENTER);
+		spaces = new Space[9];
 		for (int j=0; j<3; j++)
 			for (int i=0; i<3; i++) {
 				Text t = new Text(".");
 				t.setFont(Font.font("Consolas", FontWeight.NORMAL, 30));
 				Space space = new Space(i + 3 * j, t);
+				spaces[i + 3 * j] = space;
 				space.setOnMouseClicked(e -> clicked(e));
 				gp.add(space,i,j);
 			}
@@ -69,7 +74,11 @@ public class Display extends Application {
 				title.setText("Player "+playerTurn+" Wins!");
 				gameOver=true;
 			}
-			playerTurn = (playerTurn==1)?2:1;
+		}
+		if (!gameOver) {
+			int bm = bot.nextMove();
+			System.out.println("BEST: "+bm);
+			spaces[bm].text.setText("X");
 		}
 	}
 

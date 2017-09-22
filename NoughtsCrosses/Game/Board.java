@@ -9,6 +9,7 @@ public class Board {
 		board = new int[SIZE*SIZE];
 	}
 	public Board(Board other) {
+		this();
 		for (int i=0; i<board.length; i++)
 			this.board[i] = other.board[i];
 	}
@@ -29,5 +30,13 @@ public class Board {
 
 	public int last() {
 		return lastMove;
+	}
+
+	public void print() {
+		for (int i=0; i<9; i++) {
+			System.out.print(board[i]+",");
+			if ((i+1)%3==0)
+				System.out.println();
+		}
 	}
 }
